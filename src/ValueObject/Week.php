@@ -1,44 +1,47 @@
 <?php
+
 namespace Riskio\EventScheduler\ValueObject;
 
 use DateTime;
-use Riskio\EventScheduler\ValueObject\Exception\InvalidWeekException;
-use ValueObjects\Number\Natural;
+use Webmozart\Assert\Assert;
 
-class Week extends Natural
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class Week
 {
-    const MIN_WEEK = 1;
-    const MAX_WEEK = 53;
+    /**
+     * @var int
+     */
+    private $value;
 
+    /**
+     * @param int $value
+     */
     public function __construct(int $value)
     {
-        $options = [
-            'options' => [
-                'min_range' => self::MIN_WEEK,
-                'max_range' => self::MAX_WEEK,
-            ],
-        ];
-
-        $value = filter_var($value, FILTER_VALIDATE_INT, $options);
-
-        if (false === $value) {
-            throw new InvalidWeekException('Week must be an integer between 1 and 53');
-        }
-
-        parent::__construct($value);
+        Assert::range($value, 1, 53);
+        $this->value = $value;
     }
 
-    public static function now() : self
+    /**
+     * @return Week
+     */
+    public static function now(): self
     {
         $now = new DateTime('now');
 
-        return self::fromNativeDateTime($now);
+        return self::fromDateTime($now);
     }
 
-    public static function fromNativeDateTime(DateTime $date) : self
+    /**
+     * @param \DateTimeInterface $dateTime
+     * @return Week
+     */
+    public static function fromDateTime(\DateTimeInterface $dateTime): self
     {
-        $week = \intval($date->format('W'));
+        $week = \intval($dateTime->format('W'));
 
-        return static::fromNative($week);
+        return new self($week);
     }
 }

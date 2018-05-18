@@ -2,24 +2,28 @@
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\MonthDay as MonthDayValueObject;
+use Riskio\EventScheduler\ValueObject\MonthDay;
 
 class DayInMonth implements TemporalExpressionInterface
 {
     /**
-     * @var MonthDayValueObject
+     * @var MonthDay
      */
     protected $day;
 
+    /**
+     * @param int $day
+     */
     public function __construct(int $day)
     {
-        $this->day = new MonthDayValueObject($day);
+        $this->day = new MonthDay($day);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function includes(DateTimeInterface $date) : bool
     {
-        $day = MonthDayValueObject::fromNativeDateTime($date);
-
-        return $this->day->sameValueAs($day);
+        return $this->day->equals(MonthDay::fromDateTime($date));
     }
 }

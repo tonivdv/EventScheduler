@@ -1,88 +1,93 @@
 <?php
+
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\Month as MonthValueObject;
+use Riskio\EventScheduler\ValueObject\Month;
 
-class MonthInYear implements TemporalExpressionInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class MonthInYear implements TemporalExpressionInterface
 {
     /**
-     * @var MonthValueObject
+     * @var Month
      */
     protected $month;
 
     /**
-     * @param string|int $month
+     * @param Month $month
      */
-    public function __construct($month)
+    private function __construct(Month $month)
     {
-        $this->month = MonthValueObject::fromNativeOrNumericValue($month);
+        $this->month = $month;
     }
 
-    public function includes(DateTimeInterface $date) : bool
+    /**
+     * {@inheritdoc}
+     */
+    public function includes(DateTimeInterface $date): bool
     {
-        $month = MonthValueObject::fromNativeDateTime($date);
-
-        return $this->month->sameValueAs($month);
+        return $this->month->equals(Month::fromDateTime($date));
     }
 
-    public static function january() : self
+    public static function january(): self
     {
-        return new self(MonthValueObject::JANUARY);
+        return new self(Month::january());
     }
 
-    public static function february() : self
+    public static function february(): self
     {
-        return new self(MonthValueObject::FEBRUARY);
+        return new self(Month::february());
     }
 
-    public static function march() : self
+    public static function march(): self
     {
-        return new self(MonthValueObject::MARCH);
+        return new self(Month::march());
     }
 
-    public static function april() : self
+    public static function april(): self
     {
-        return new self(MonthValueObject::APRIL);
+        return new self(Month::april());
     }
 
-    public static function may() : self
+    public static function may(): self
     {
-        return new self(MonthValueObject::MAY);
+        return new self(Month::may());
     }
 
-    public static function june() : self
+    public static function june(): self
     {
-        return new self(MonthValueObject::JUNE);
+        return new self(Month::june());
     }
 
-    public static function july() : self
+    public static function july(): self
     {
-        return new self(MonthValueObject::JULY);
+        return new self(Month::july());
     }
 
-    public static function august() : self
+    public static function august(): self
     {
-        return new self(MonthValueObject::AUGUST);
+        return new self(Month::august());
     }
 
-    public static function september() : self
+    public static function september(): self
     {
-        return new self(MonthValueObject::SEPTEMBER);
+        return new self(Month::september());
     }
 
-    public static function october() : self
+    public static function october(): self
     {
-        return new self(MonthValueObject::OCTOBER);
+        return new self(Month::october());
     }
 
-    public static function november() : self
+    public static function november(): self
     {
-        return new self(MonthValueObject::NOVEMBER);
+        return new self(Month::november());
     }
 
-    public static function december() : self
+    public static function december(): self
     {
-        return new self(MonthValueObject::DECEMBER);
+        return new self(Month::december());
     }
 }

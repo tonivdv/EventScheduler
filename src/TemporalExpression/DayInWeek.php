@@ -1,63 +1,89 @@
 <?php
+
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\WeekDay as WeekDayValueObject;
+use Riskio\EventScheduler\ValueObject\WeekDay;
 
-class DayInWeek implements TemporalExpressionInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class DayInWeek implements TemporalExpressionInterface
 {
     /**
-     * @var WeekDayValueObject
+     * @var WeekDay
      */
     protected $day;
 
     /**
-     * @param string|int $day
+     * @param WeekDay $day
      */
-    public function __construct($day)
+    private function __construct(WeekDay $day)
     {
-        $this->day = WeekDayValueObject::fromNativeOrNumericValue($day);
+        $this->day = $day;
     }
 
-    public function includes(DateTimeInterface $date) : bool
+    /**
+     * {@inheritdoc}
+     */
+    public function includes(DateTimeInterface $date): bool
     {
-        $day = WeekDayValueObject::fromNativeDateTime($date);
-
-        return $this->day->sameValueAs($day);
+        return $this->day->equals(WeekDay::fromDateTime($date));
     }
 
-    public static function monday() : self
+    /**
+     * @return DayInWeek
+     */
+    public static function monday(): self
     {
-        return new self(WeekDayValueObject::MONDAY);
+        return new self(WeekDay::monday());
     }
 
-    public static function tuesday() : self
+    /**
+     * @return DayInWeek
+     */
+    public static function tuesday(): self
     {
-        return new self(WeekDayValueObject::TUESDAY);
+        return new self(WeekDay::tuesday());
     }
 
-    public static function wednesday() : self
+    /**
+     * @return DayInWeek
+     */
+    public static function wednesday(): self
     {
-        return new self(WeekDayValueObject::WEDNESDAY);
+        return new self(WeekDay::wednesday());
     }
 
-    public static function thursday() : self
+    /**
+     * @return DayInWeek
+     */
+    public static function thursday(): self
     {
-        return new self(WeekDayValueObject::THURSDAY);
+        return new self(WeekDay::thursday());
     }
 
-    public static function friday() : self
+    /**
+     * @return DayInWeek
+     */
+    public static function friday(): self
     {
-        return new self(WeekDayValueObject::FRIDAY);
+        return new self(WeekDay::friday());
     }
 
-    public static function saturday() : self
+    /**
+     * @return DayInWeek
+     */
+    public static function saturday(): self
     {
-        return new self(WeekDayValueObject::SATURDAY);
+        return new self(WeekDay::saturday());
     }
 
-    public static function sunday() : self
+    /**
+     * @return DayInWeek
+     */
+    public static function sunday(): self
     {
-        return new self(WeekDayValueObject::SUNDAY);
+        return new self(WeekDay::sunday());
     }
 }

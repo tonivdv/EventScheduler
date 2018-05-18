@@ -3,8 +3,14 @@ namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
 
-class EachDay implements TemporalExpressionInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class EachDay implements TemporalExpressionInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function includes(DateTimeInterface $date) : bool
     {
         return true;

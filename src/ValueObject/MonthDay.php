@@ -1,25 +1,52 @@
 <?php
+
 namespace Riskio\EventScheduler\ValueObject;
 
-use DateTime;
-use InvalidArgumentException;
-use Riskio\EventScheduler\ValueObject\Exception\InvalidMonthDayException;
-use ValueObjects\DateTime\MonthDay as BaseMonthDay;
+use DateTimeInterface;
+use Webmozart\Assert\Assert;
 
-class MonthDay extends BaseMonthDay
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class MonthDay
 {
-    public function __construct(int $year)
+    /**
+     * @var int
+     */
+    private $value;
+
+    /**
+     * @param int $value
+     */
+    public function __construct(int $value)
     {
-        try {
-            parent::__construct($year);
-        } catch (InvalidArgumentException $e) {
-            $message = 'Month day must be an integer between 1 and 31';
-            throw new InvalidMonthDayException($message, 0, $e->getPrevious());
-        }
+        Assert::range($value, 1, 31);
+        $this->value = $value;
     }
 
-    public static function fromNativeDateTime(DateTime $date) : self
+    /**
+     * @return int
+     */
+    public function value(): int
     {
-        return static::fromNative($date->format('j'));
+        return $this->value;
+    }
+
+    /**
+     * @param MonthDay $month
+     * @return bool
+     */
+    public function equals(MonthDay $month): bool
+    {
+        return $this->value === $month->value();
+    }
+
+    /**
+     * @param DateTimeInterface $dateTime
+     * @return MonthDay
+     */
+    public static function fromDateTime(DateTimeInterface $dateTime): self
+    {
+        return new self($dateTime->format('j'));
     }
 }

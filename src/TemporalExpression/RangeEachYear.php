@@ -1,4 +1,5 @@
 <?php
+
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
@@ -28,15 +29,15 @@ class RangeEachYear implements TemporalExpressionInterface
     protected $endDay;
 
     /**
-     * @param string|int $startMonth
-     * @param string|int $endMonth
-     * @param int|null $startDay
-     * @param int|null $endDay
+     * @param Month $startMonth
+     * @param Month $endMonth
+     * @param null  $startDay
+     * @param null  $endDay
      */
-    public function __construct($startMonth, $endMonth, $startDay = null, $endDay = null)
+    public function __construct(Month $startMonth, Month $endMonth, $startDay = null, $endDay = null)
     {
-        $this->startMonth = Month::fromNativeOrNumericValue($startMonth);
-        $this->endMonth   = Month::fromNativeOrNumericValue($endMonth);
+        $this->startMonth = $startMonth;
+        $this->endMonth = $endMonth;
 
         if (null !== $startDay) {
             $this->startDay = MonthDay::fromNative($startDay);
@@ -46,20 +47,20 @@ class RangeEachYear implements TemporalExpressionInterface
         }
     }
 
-    public function includes(DateTimeInterface $date) : bool
+    public function includes(DateTimeInterface $date): bool
     {
         return $this->monthsInclude($date)
             || $this->startMonthIncludes($date)
             || $this->endMonthIncludes($date);
     }
 
-    private function monthsInclude(DateTimeInterface $date) : bool
+    private function monthsInclude(DateTimeInterface $date): bool
     {
-        $month        = Month::fromNativeDateTime($date);
-        $ordinalMonth = $month->getOrdinal();
+        $month = Month::fromDateTime($date);
+        $ordinalMonth = $month->number();
 
-        $ordinalStartMonth = $this->startMonth->getOrdinal();
-        $ordinalEndMonth   = $this->endMonth->getOrdinal();
+        $ordinalStartMonth = $this->startMonth->number();
+        $ordinalEndMonth = $this->endMonth->number();
 
         if ($ordinalStartMonth <= $ordinalEndMonth) {
             return ($ordinalMonth > $ordinalStartMonth && $ordinalMonth < $ordinalEndMonth);
@@ -68,11 +69,11 @@ class RangeEachYear implements TemporalExpressionInterface
         }
     }
 
-    private function startMonthIncludes(DateTimeInterface $date) : bool
+    private function startMonthIncludes(DateTimeInterface $date): bool
     {
-        $month = Month::fromNativeDateTime($date);
+        $month = Month::fromDateTime($date);
 
-        if (!$this->startMonth->sameValueAs($month)) {
+        if (!$this->startMonth->equals($month)) {
             return false;
         }
 
@@ -85,11 +86,11 @@ class RangeEachYear implements TemporalExpressionInterface
         return $day->toNative() >= $this->startDay->toNative();
     }
 
-    private function endMonthIncludes(DateTimeInterface $date) : bool
+    private function endMonthIncludes(DateTimeInterface $date): bool
     {
-        $month = Month::fromNativeDateTime($date);
+        $month = Month::fromDateTime($date);
 
-        if (!$this->endMonth->sameValueAs($month)) {
+        if (!$this->endMonth->equals($month)) {
             return false;
         }
 

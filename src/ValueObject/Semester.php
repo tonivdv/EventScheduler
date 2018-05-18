@@ -1,47 +1,71 @@
 <?php
+
 namespace Riskio\EventScheduler\ValueObject;
 
 use DateTime;
-use Riskio\EventScheduler\ValueObject\Exception\InvalidSemesterException;
-use ValueObjects\Number\Natural;
+use DateTimeInterface;
+use Webmozart\Assert\Assert;
 
-class Semester extends Natural
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class Semester
 {
-    const FIRST  = 1;
-    const SECOND = 2;
+    /**
+     * @var int
+     */
+    private $value;
 
-    public function __construct(int $value)
+    /**
+     * @param int $value
+     */
+    private function __construct(int $value)
     {
-        $options = [
-            'options' => [
-                'min_range' => self::FIRST,
-                'max_range' => self::SECOND,
-            ],
-        ];
-
-        $value = filter_var($value, FILTER_VALIDATE_INT, $options);
-
-        if (false === $value) {
-            throw new InvalidSemesterException(
-                'Semester must be an integer value among 1 or 2 according to'
-                . ' first and second semesters of the year'
-            );
-        }
-
-        parent::__construct($value);
+        Assert::range($value, 1, 2);
+        $this->value = $value;
     }
 
-    public static function now() : self
+    /**
+     * @return Semester
+     */
+    public static function first(): self
     {
-        $now = new DateTime('now');
-
-        return self::fromNativeDateTime($now);
+        return new self(1);
     }
 
-    public static function fromNativeDateTime(DateTime $date) : self
+    /**
+     * @return Semester
+     */
+    public static function second(): self
     {
-        $semester = ceil($date->format('n') / 6);
+        return new self(2);
+    }
 
-        return static::fromNative($semester);
+    /**
+     * @return Semester
+     */
+    public static function now(): self
+    {
+        return self::fromDateTime(new DateTime('now'));
+    }
+
+    /**
+     * @param DateTimeInterface $dateTime
+     * @return Semester
+     */
+    public static function fromDateTime(DateTimeInterface $dateTime): self
+    {
+        $semester = ceil($dateTime->format('n') / 6);
+
+        return new self($semester);
+    }
+
+    /**
+     * @param int $value
+     * @return Semester
+     */
+    public static function fromValue(int $value)
+    {
+        return new self($value);
     }
 }

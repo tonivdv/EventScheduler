@@ -5,24 +5,18 @@ use DateTime;
 use Riskio\EventScheduler\TemporalExpression\MonthInYear;
 use Riskio\EventScheduler\ValueObject\Month;
 
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
 class MonthInYearTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @test
-     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidMonthException
-     */
-    public function constructor_GivenInvalidMonthValue_ShouldThrowAnException()
-    {
-        new MonthInYear('invalid');
-    }
-
     /**
      * @test
      */
     public function includes_GivenDateAtSameMonth_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-10');
-        $expr = new MonthInYear(Month::APRIL);
+        $expr = MonthInYear::april();
 
         $isIncluded = $expr->includes($date);
 
@@ -35,7 +29,7 @@ class MonthInYearTest extends \PHPUnit_Framework_TestCase
     public function includes_GivenDateAtDifferentMonth_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-10');
-        $expr = new MonthInYear(Month::NOVEMBER);
+        $expr = MonthInYear::november();
 
         $isIncluded = $expr->includes($date);
 

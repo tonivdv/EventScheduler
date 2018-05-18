@@ -1,48 +1,64 @@
 <?php
+
 namespace Riskio\EventSchedulerTest\ValueObject;
 
 use Riskio\EventScheduler\ValueObject\Month;
 
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
 class MonthTest extends \PHPUnit_Framework_TestCase
 {
-    public function getDataProvider()
+    /**
+     * @return array
+     */
+    public function dataProvider_number(): array
     {
         return [
-            [1, Month::JANUARY],
-            [2, Month::FEBRUARY],
-            [3, Month::MARCH],
-            [4, Month::APRIL],
-            [5, Month::MAY],
-            [6, Month::JUNE],
-            [7, Month::JULY],
-            [8, Month::AUGUST],
-            [9, Month::SEPTEMBER],
-            [10, Month::OCTOBER],
-            [11, Month::NOVEMBER],
-            [12, Month::DECEMBER],
-            [Month::JANUARY, Month::JANUARY],
-            [Month::FEBRUARY, Month::FEBRUARY],
-            [Month::MARCH, Month::MARCH],
-            [Month::APRIL, Month::APRIL],
-            [Month::MAY, Month::MAY],
-            [Month::JUNE, Month::JUNE],
-            [Month::JULY, Month::JULY],
-            [Month::AUGUST, Month::AUGUST],
-            [Month::SEPTEMBER, Month::SEPTEMBER],
-            [Month::OCTOBER, Month::OCTOBER],
-            [Month::NOVEMBER, Month::NOVEMBER],
-            [Month::DECEMBER, Month::DECEMBER],
+            [1, Month::january()],
+            [2, Month::february()],
+            [3, Month::march()],
+            [4, Month::april()],
+            [5, Month::may()],
+            [6, Month::june()],
+            [7, Month::july()],
+            [8, Month::august()],
+            [9, Month::september()],
+            [10, Month::october()],
+            [11, Month::november()],
+            [12, Month::december()]
         ];
     }
 
     /**
      * @test
-     * @dataProvider getDataProvider
+     * @dataProvider dataProvider_number
+     * @param int   $number
+     * @param Month $month
      */
-    public function fromNativeOrNumericValue_GivenScalarValue_ShouldConstructMonthWithRelatedName($numericValue, $name)
+    public function fromNumber_GivenScalarValue_ShouldConstructMonthWithRelatedName(int $number, Month $month)
     {
-        $month = Month::fromNativeOrNumericValue($numericValue);
+        $this->assertTrue($month->equals(Month::fromNumber($number)));
+    }
 
-        $this->assertThat($name, $this->equalTo($month->getValue()));
+    public function dataProvider_dateTimeInterface()
+    {
+        return [
+            [new \DateTimeImmutable('2018-03-20'), Month::march()],
+            [new \DateTime('2018-07-20'), Month::july()],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProvider_dateTimeInterface
+     * @param \DateTimeInterface $dateTime
+     * @param Month              $expectedMonth
+     */
+    public function fromDateTime_GivenDateTimeInterfaceValue_ShouldConstructMonth(
+        \DateTimeInterface $dateTime,
+        Month $expectedMonth
+    ) {
+        $this->assertEquals($expectedMonth, Month::fromDateTime($dateTime));
     }
 }

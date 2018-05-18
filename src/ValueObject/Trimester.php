@@ -1,49 +1,85 @@
 <?php
+
 namespace Riskio\EventScheduler\ValueObject;
 
 use DateTime;
-use Riskio\EventScheduler\ValueObject\Exception\InvalidTrimesterException;
-use ValueObjects\Number\Natural;
+use Webmozart\Assert\Assert;
 
-class Trimester extends Natural
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class Trimester
 {
-    const FIRST  = 1;
-    const SECOND = 2;
-    const THIRD  = 3;
-    const FOURTH = 4;
+    /**
+     * @var int
+     */
+    private $value;
 
-    public function __construct(int $value)
+    /**
+     * @param int $value
+     */
+    private function __construct(int $value)
     {
-        $options = [
-            'options' => [
-                'min_range' => self::FIRST,
-                'max_range' => self::FOURTH,
-            ],
-        ];
-
-        $value = filter_var($value, FILTER_VALIDATE_INT, $options);
-
-        if (false === $value) {
-            throw new InvalidTrimesterException(
-                'Trimester must be an integer value among 1, 2, 3 or 4 according to'
-                . ' first, second, third and fourth trimesters of the year'
-            );
-        }
-
-        parent::__construct($value);
+        Assert::range($value, 1, 4);
+        $this->value = $value;
     }
 
-    public static function now() : self
+    /**
+     * @return int
+     */
+    public function value(): int
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return Trimester
+     */
+    public static function first(): self
+    {
+        return new self(1);
+    }
+
+    /**
+     * @return Trimester
+     */
+    public static function second(): self
+    {
+        return new self(2);
+    }
+
+    /**
+     * @return Trimester
+     */
+    public static function third(): self
+    {
+        return new self(3);
+    }
+
+    /**
+     * @return Trimester
+     */
+    public static function fourth(): self
+    {
+        return new self(4);
+    }
+
+    /**
+     * @return Trimester
+     */
+    public static function now(): self
     {
         $now = new DateTime('now');
-
-        return self::fromNativeDateTime($now);
+        return self::fromNDateTime($now);
     }
 
-    public static function fromNativeDateTime(DateTime $date) : self
+    /**
+     * @param \DateTimeInterface $date
+     * @return Trimester
+     */
+    public static function fromNDateTime(\DateTimeInterface $date): self
     {
         $semester = ceil($date->format('n') / 3);
-
-        return static::fromNative($semester);
+        return new self($semester);
     }
 }
