@@ -2,24 +2,31 @@
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\Week as WeekValueObject;
+use Riskio\EventScheduler\ValueObject\Week;
 
-class WeekInYear implements TemporalExpressionInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class WeekInYear implements TemporalExpressionInterface
 {
     /**
-     * @var WeekValueObject
+     * @var Week
      */
     protected $week;
 
+    /**
+     * @param int $week
+     */
     public function __construct(int $week)
     {
-        $this->week = new WeekValueObject($week);
+        $this->week = new Week($week);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function includes(DateTimeInterface $date) : bool
     {
-        $week = WeekValueObject::fromNativeDateTime($date);
-
-        return $this->week->sameValueAs($week);
+        return $this->week->equals(Week::fromDateTime($date));
     }
 }

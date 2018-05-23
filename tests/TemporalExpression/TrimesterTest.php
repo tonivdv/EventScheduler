@@ -1,89 +1,91 @@
 <?php
+
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
+use DateTimeInterface;
 use Riskio\EventScheduler\TemporalExpression\Trimester;
 
-class TrimesterTest extends \PHPUnit_Framework_TestCase
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class TrimesterTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @test
-     * @expectedException \TypeError
-     */
-    public function constructor_GivenInvalidTrimesterType_ShouldThrowTypeErrorException()
-    {
-        new Trimester('invalid');
-    }
-
-    public function getInvalidTrimesterDataProvider()
-    {
-        return [
-            [-1],
-            [5],
-        ];
-    }
-
-    /**
-     * @test
-     * @dataProvider getInvalidTrimesterDataProvider
-     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidTrimesterException
-     */
-    public function constructor_GivenInvalidTrimesterValue_ShouldThrowAnException($trimester)
-    {
-        new Trimester($trimester);
-    }
-
     public function getSuccessfulDataProvider()
     {
+        $first = Trimester::first();
+        $second = Trimester::second();
+        $third = Trimester::third();
+        $fourth = Trimester::fourth();
+
         return [
-            [new DateTime('2015-01-01'), 1],
-            [new DateTime('2015-03-31'), 1],
-            [new DateTime('2015-04-01'), 2],
-            [new DateTime('2015-06-30'), 2],
-            [new DateTime('2015-07-01'), 3],
-            [new DateTime('2015-09-30'), 3],
-            [new DateTime('2015-10-01'), 4],
-            [new DateTime('2015-12-31'), 4],
+            [new DateTime('2015-01-01'), $first],
+            [new DateTime('2015-03-31'), $first],
+            [new DateTime('2015-04-01'), $second],
+            [new DateTime('2015-06-30'), $second],
+            [new DateTime('2015-07-01'), $third],
+            [new DateTime('2015-09-30'), $third],
+            [new DateTime('2015-10-01'), $fourth],
+            [new DateTime('2015-12-31'), $fourth],
         ];
     }
 
     /**
      * @test
      * @dataProvider getSuccessfulDataProvider
+     * @param DateTimeInterface $date
+     * @param Trimester         $trimester
      */
-    public function includes_GivenDateAtSameTrimester_ShouldReturnTrue(DateTime $date, $trimester)
-    {
+    public function includes_GivenDateAtSameTrimester_ShouldReturnTrue(
+        DateTimeInterface $date,
+        Trimester $trimester
+    ) {
         $this->includesDate($date, $trimester, true);
     }
 
     public function getUnsuccessfulDataProvider()
     {
+        $first = Trimester::first();
+        $second = Trimester::second();
+        $third = Trimester::third();
+        $fourth = Trimester::fourth();
+
         return [
-            [new DateTime('2015-01-01'), 4],
-            [new DateTime('2015-03-31'), 4],
-            [new DateTime('2015-04-01'), 3],
-            [new DateTime('2015-06-30'), 3],
-            [new DateTime('2015-07-01'), 2],
-            [new DateTime('2015-09-30'), 2],
-            [new DateTime('2015-10-01'), 1],
-            [new DateTime('2015-12-31'), 1],
+            [new DateTime('2015-01-01'), $fourth],
+            [new DateTime('2015-03-31'), $fourth],
+            [new DateTime('2015-04-01'), $third],
+            [new DateTime('2015-06-30'), $third],
+            [new DateTime('2015-07-01'), $second],
+            [new DateTime('2015-09-30'), $second],
+            [new DateTime('2015-10-01'), $first],
+            [new DateTime('2015-12-31'), $first],
         ];
     }
 
     /**
      * @test
      * @dataProvider getUnsuccessfulDataProvider
+     * @param DateTimeInterface $date
+     * @param Trimester         $trimester
      */
-    public function includes_GivenDateAtDifferentTrimester_ShouldReturnFalse(DateTime $date, $trimester)
-    {
+    public function includes_GivenDateAtDifferentTrimester_ShouldReturnFalse(
+        DateTimeInterface $date,
+        Trimester $trimester
+    ) {
         $this->includesDate($date, $trimester, false);
     }
 
-    private function includesDate(DateTime $date, $trimester, $expected)
-    {
-        $expr = new Trimester($trimester);
-
-        $output = $expr->includes($date);
+    /**
+     * @param DateTimeInterface $date
+     * @param Trimester         $trimester
+     * @param bool              $expected
+     */
+    private function includesDate(
+        DateTimeInterface $date,
+        Trimester $trimester,
+        bool $expected
+    ) {
+        $output = $trimester->includes($date);
 
         $this->assertSame($expected, $output);
     }

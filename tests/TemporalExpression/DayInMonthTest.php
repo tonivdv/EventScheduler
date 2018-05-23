@@ -2,9 +2,10 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Riskio\EventScheduler\TemporalExpression\DayInMonth;
 
-class DayInMonthTest extends \PHPUnit_Framework_TestCase
+class DayInMonthTest extends TestCase
 {
     /**
      * @test
@@ -26,9 +27,10 @@ class DayInMonthTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidDayDataProvider
-     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidMonthDayException
+     * @expectedException \Exception
+     * @param int $day
      */
-    public function constructor_GivenInvalidDay_ShouldThrowAnException($day)
+    public function constructor_GivenInvalidDay_ShouldThrowAnException(int $day)
     {
         new DayInMonth($day);
     }

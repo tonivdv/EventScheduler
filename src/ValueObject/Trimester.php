@@ -33,6 +33,15 @@ final class Trimester
     }
 
     /**
+     * @param Trimester $trimester
+     * @return bool
+     */
+    public function equals(Trimester $trimester): bool
+    {
+        return $this->value === $trimester->value();
+    }
+
+    /**
      * @return Trimester
      */
     public static function first(): self

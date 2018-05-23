@@ -4,7 +4,10 @@ namespace Riskio\EventScheduler\TemporalExpression;
 use DateTimeInterface;
 use Riskio\EventScheduler\ValueObject\MonthDay;
 
-class DayInMonth implements TemporalExpressionInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class DayInMonth implements TemporalExpressionInterface
 {
     /**
      * @var MonthDay

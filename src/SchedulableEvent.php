@@ -7,7 +7,7 @@ use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 class SchedulableEvent implements Occurrable
 {
     /**
-     * @var Event
+     * @var EventInterface
      */
     protected $event;
 
@@ -16,13 +16,13 @@ class SchedulableEvent implements Occurrable
      */
     protected $temporalExpression;
 
-    public function __construct(Event $event, TemporalExpressionInterface $temporalExpression)
+    public function __construct(EventInterface $event, TemporalExpressionInterface $temporalExpression)
     {
         $this->event = $event;
         $this->temporalExpression = $temporalExpression;
     }
 
-    public function event() : Event
+    public function event() : EventInterface
     {
         return $this->event;
     }
@@ -32,7 +32,7 @@ class SchedulableEvent implements Occurrable
         return $this->temporalExpression;
     }
 
-    public function isOccurring(Event $event, DateTimeInterface $date) : bool
+    public function isOccurring(EventInterface $event, DateTimeInterface $date) : bool
     {
         return $this->event->equals($event) && $this->temporalExpression->includes($date);
     }

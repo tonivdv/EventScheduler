@@ -2,27 +2,19 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Riskio\EventScheduler\TemporalExpression\DayInWeek;
 use Riskio\EventScheduler\ValueObject\WeekDay;
 
-class DayInWeekTest extends \PHPUnit_Framework_TestCase
+class DayInWeekTest extends TestCase
 {
-    /**
-     * @test
-     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidWeekDayException
-     */
-    public function constructor_GivenInvalidWeekDay_ShouldThrowAnException()
-    {
-        new DayInWeek('invalid');
-    }
-
     /**
      * @test
      */
     public function includes_GivenDateAtSameWeekDay_ShouldReturnTrue()
     {
         $date = new DateTime('2015-04-12');
-        $expr = new DayInWeek(WeekDay::SUNDAY);
+        $expr = DayInWeek::sunday();
 
         $isIncluded = $expr->includes($date);
 
@@ -35,7 +27,7 @@ class DayInWeekTest extends \PHPUnit_Framework_TestCase
     public function includes_GivenDateAtDifferentWeekDay_ShouldReturnFalse()
     {
         $date = new DateTime('2015-04-12');
-        $expr = new DayInWeek(WeekDay::FRIDAY);
+        $expr = DayInWeek::friday();
 
         $isIncluded = $expr->includes($date);
 

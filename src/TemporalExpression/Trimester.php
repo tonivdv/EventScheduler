@@ -1,25 +1,65 @@
 <?php
+
 namespace Riskio\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
 use Riskio\EventScheduler\ValueObject\Trimester as TrimesterValueObject;
 
-class Trimester implements TemporalExpressionInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class Trimester implements TemporalExpressionInterface
 {
     /**
      * @var TrimesterValueObject
      */
     protected $trimester;
 
-    public function __construct(int $trimester)
+    /**
+     * @param TrimesterValueObject $trimester
+     */
+    public function __construct(TrimesterValueObject $trimester)
     {
-        $this->trimester = new TrimesterValueObject($trimester);
+        $this->trimester = $trimester;
     }
 
-    public function includes(DateTimeInterface $date) : bool
+    /**
+     * @return Trimester
+     */
+    public static function first(): self
     {
-        $trimester = TrimesterValueObject::fromNativeDateTime($date);
+        return new self(TrimesterValueObject::first());
+    }
 
-        return $this->trimester->sameValueAs($trimester);
+    /**
+     * @return Trimester
+     */
+    public static function second(): self
+    {
+        return new self(TrimesterValueObject::second());
+    }
+
+    /**
+     * @return Trimester
+     */
+    public static function third(): self
+    {
+        return new self(TrimesterValueObject::third());
+    }
+
+    /**
+     * @return Trimester
+     */
+    public static function fourth(): self
+    {
+        return new self(TrimesterValueObject::fourth());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function includes(DateTimeInterface $date): bool
+    {
+        return $this->trimester->equals(TrimesterValueObject::fromNDateTime($date));
     }
 }

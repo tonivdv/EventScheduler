@@ -5,5 +5,5 @@ use DateTimeInterface;
 
 interface Occurrable
 {
-    public function isOccurring(Event $event, DateTimeInterface $date) : bool;
+    public function isOccurring(EventInterface $event, DateTimeInterface $date) : bool;
 }

@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use Riskio\EventScheduler\BasicEvent;
 use Riskio\EventScheduler\Comparable;
 use Riskio\EventScheduler\TemporalExpression\Collection\Intersection;
 use Riskio\EventScheduler\TemporalExpression\Collection\Union;
@@ -20,16 +21,6 @@ use Riskio\EventScheduler\TemporalExpression\Until;
 use Riskio\EventScheduler\TemporalExpression\WeekInYear;
 
 require "vendor/autoload.php";
-
-final class MyEvent implements \Riskio\EventScheduler\Event
-{
-    public function equals(
-        /** @noinspection PhpHierarchyChecksInspection */
-        Comparable $compare
-    ): bool {
-        return $this === $compare;
-    }
-}
 
 final class FixedDay implements TemporalExpressionInterface
 {
@@ -80,7 +71,7 @@ $holidayExpression = new WeekInYear(38);
 $expression = new Difference($titleExpression, $holidayExpression);
 
 
-$myEvent = new MyEvent();
+$myEvent = new BasicEvent('test');
 $scheduler->schedule($myEvent, $expression);
 
 

@@ -1,11 +1,18 @@
 <?php
+
 namespace Riskio\EventScheduler\TemporalExpression\Collection;
 
 use DateTimeInterface;
 
-class Intersection extends AbstractCollection
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class Intersection extends AbstractCollection
 {
-    public function includes(DateTimeInterface $date) : bool
+    /**
+     * {@inheritdoc}
+     */
+    public function includes(DateTimeInterface $date): bool
     {
         foreach ($this->elements as $element) {
             if (!$element->includes($date)) {

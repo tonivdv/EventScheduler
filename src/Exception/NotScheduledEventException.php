@@ -9,6 +9,6 @@ class NotScheduledEventException
 {
     public static function create(Exception $previous = null) : self
     {
-        return new self('Event is not scheduled', 0, $previous);
+        return new self('EventInterface is not scheduled', 0, $previous);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
@@ -26,7 +27,7 @@ class WeekInYearTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider getInvalidDayDataProvider
-     * @expectedException \Riskio\EventScheduler\ValueObject\Exception\InvalidWeekException
+     * @expectedException \Exception
      */
     public function constructor_GivenInvalidWeek_ShouldThrowAnException($day)
     {

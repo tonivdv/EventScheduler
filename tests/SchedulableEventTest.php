@@ -2,7 +2,7 @@
 namespace Riskio\EventSchedulerTest;
 
 use DateTime;
-use Riskio\EventScheduler\Event;
+use Riskio\EventScheduler\EventInterface;
 use Riskio\EventScheduler\SchedulableEvent;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
@@ -22,7 +22,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
         $anyDate  = new DateTime();
 
-        $exprMock = $this->getMock(TemporalExpressionInterface::class);
+        $exprMock = $this->createMock(TemporalExpressionInterface::class);
         $exprMock
             ->expects($this->once())
             ->method('includes')
@@ -98,11 +98,11 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
 
     private function getTemporalExpression()
     {
-        return $this->getMock(TemporalExpressionInterface::class);
+        return $this->createMock(TemporalExpressionInterface::class);
     }
 
     private function getEvent()
     {
-        return $this->getMock(Event::class);
+        return $this->createMock(EventInterface::class);
     }
 }

@@ -2,11 +2,11 @@
 namespace Riskio\EventSchedulerTest\Fixtures;
 
 use Riskio\EventScheduler\Comparable;
-use Riskio\EventScheduler\Event as BaseEvent;
+use Riskio\EventScheduler\EventInterface as BaseEvent;
 
-class Event implements BaseEvent
+class EventInterface implements BaseEvent
 {
-    public function equals(Comparable $compare) : bool
+    public function equals($compare) : bool
     {
         return $this === $compare;
     }

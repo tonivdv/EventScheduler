@@ -3,8 +3,14 @@ namespace Riskio\EventScheduler\TemporalExpression\Collection;
 
 use DateTimeInterface;
 
-class Union extends AbstractCollection
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class Union extends AbstractCollection
 {
+    /**
+     * {@inheritdoc}
+     */
     public function includes(DateTimeInterface $date) : bool
     {
         foreach ($this->elements as $element) {

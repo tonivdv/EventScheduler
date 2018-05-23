@@ -2,10 +2,11 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Riskio\EventScheduler\TemporalExpression\Difference;
 
-class DifferenceTest extends \PHPUnit_Framework_TestCase
+class DifferenceTest extends TestCase
 {
     public function getDataProvider()
     {

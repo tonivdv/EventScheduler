@@ -1,34 +1,51 @@
 <?php
-namespace Riskio\EventSchedulerTest\TemporalExpression\Collection;
+
+namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Riskio\EventScheduler\TemporalExpression\RangeEachYear;
 use Riskio\EventScheduler\ValueObject\Month;
+use Riskio\EventScheduler\ValueObject\MonthDay;
 
-class RangeEachYearTest extends \PHPUnit_Framework_TestCase
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class RangeEachYearTest extends TestCase
 {
     public function getDataProvider()
     {
         return [
-            [Month::JANUARY, Month::MARCH, null, null, '2015-02-05', true],
-            [Month::JANUARY, Month::MARCH, 10, 20, '2015-01-05', false],
-            [Month::JANUARY, Month::MARCH, 10, 20, '2015-02-05', true],
-            [Month::JANUARY, Month::MARCH, 10, 20, '2015-03-05', true],
-            [Month::JANUARY, Month::MARCH, 10, 20, '2015-03-25', false],
-            [Month::DECEMBER, Month::APRIL, 20, 10, '2015-03-15', true],
+            [Month::january(), Month::march(), null, null, new DateTime('2015-02-05'), true],
+            [Month::january(), Month::march(), new MonthDay(10), new MonthDay(20), new DateTime('2015-01-05'), false],
+            [Month::january(), Month::march(), new MonthDay(10), new MonthDay(20), new DateTime('2015-02-05'), true],
+            [Month::january(), Month::march(), new MonthDay(10), new MonthDay(20), new DateTime('2015-03-05'), true],
+            [Month::january(), Month::march(), new MonthDay(10), new MonthDay(20), new DateTime('2015-03-25'), false],
+            [Month::december(), Month::april(), new MonthDay(20), new MonthDay(10), new DateTime('2015-03-15'), true],
         ];
     }
 
     /**
      * @test
      * @dataProvider getDataProvider
+     * @param Month              $startMonth
+     * @param Month              $endMonth
+     * @param MonthDay           $startDay
+     * @param MonthDay           $endDay
+     * @param \DateTimeInterface $date
+     * @param bool               $expected
      */
     public function includes_GivenDatesFromDataProvider_ShouldMatchExpectedValue(
-        $startMonth, $endMonth, $startDay, $endDay, $date, $expected
+        Month $startMonth,
+        Month $endMonth,
+        MonthDay $startDay = null,
+        MonthDay $endDay = null,
+        \DateTimeInterface $date,
+        bool $expected
     ) {
         $expr = new RangeEachYear($startMonth, $endMonth, $startDay, $endDay);
 
-        $isIncluded = $expr->includes(new DateTime($date));
+        $isIncluded = $expr->includes($date);
 
         $this->assertSame($expected, $isIncluded);
     }

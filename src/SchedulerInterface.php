@@ -16,26 +16,26 @@ interface SchedulerInterface extends Occurrable
     ) : self;
 
     public function schedule(
-        Event $event,
+        EventInterface $event,
         TemporalExpressionInterface $temporalExpression
     ) : SchedulableEvent;
 
     public function unschedule(SchedulableEvent $schedulableEvent);
 
-    public function isScheduled(Event $event) : bool;
+    public function isScheduled(EventInterface $event) : bool;
 
     public function eventsForDate(DateTimeInterface $date) : Traversable;
 
-    public function dates(Event $event, DateRange $range) : Traversable;
+    public function dates(EventInterface $event, DateRange $range) : Traversable;
 
     public function nextOccurrence(
-        Event $event,
+        EventInterface $event,
         DateTimeInterface $start,
         DateTimeInterface $end = null
     ) : DateTimeImmutable;
 
     public function previousOccurrence(
-        Event $event,
+        EventInterface $event,
         DateTimeInterface $end,
         DateTimeInterface $start = null
     ) : DateTimeImmutable;

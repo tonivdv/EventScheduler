@@ -26,6 +26,23 @@ final class Semester
     }
 
     /**
+     * @return int
+     */
+    public function value(): int
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param Semester $semester
+     * @return bool
+     */
+    public function equals(Semester $semester): bool
+    {
+        return $this->value === $semester->value();
+    }
+
+    /**
      * @return Semester
      */
     public static function first(): self

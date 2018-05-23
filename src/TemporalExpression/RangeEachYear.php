@@ -6,7 +6,12 @@ use DateTimeInterface;
 use Riskio\EventScheduler\ValueObject\Month;
 use Riskio\EventScheduler\ValueObject\MonthDay;
 
-class RangeEachYear implements TemporalExpressionInterface
+/**
+ *
+ *
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class RangeEachYear implements TemporalExpressionInterface
 {
     /**
      * @var Month
@@ -29,24 +34,27 @@ class RangeEachYear implements TemporalExpressionInterface
     protected $endDay;
 
     /**
-     * @param Month $startMonth
-     * @param Month $endMonth
-     * @param null  $startDay
-     * @param null  $endDay
+     * @param Month         $startMonth
+     * @param Month         $endMonth
+     * @param MonthDay|null $startDay
+     * @param MonthDay|null $endDay
      */
-    public function __construct(Month $startMonth, Month $endMonth, $startDay = null, $endDay = null)
-    {
+    public function __construct(
+        Month $startMonth,
+        Month $endMonth,
+        MonthDay $startDay = null,
+        MonthDay $endDay = null
+    ) {
         $this->startMonth = $startMonth;
         $this->endMonth = $endMonth;
 
-        if (null !== $startDay) {
-            $this->startDay = MonthDay::fromNative($startDay);
-        }
-        if (null !== $endDay) {
-            $this->endDay = MonthDay::fromNative($endDay);
-        }
+        $this->startDay = $startDay;
+        $this->endDay = $endDay;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function includes(DateTimeInterface $date): bool
     {
         return $this->monthsInclude($date)
@@ -54,6 +62,10 @@ class RangeEachYear implements TemporalExpressionInterface
             || $this->endMonthIncludes($date);
     }
 
+    /**
+     * @param DateTimeInterface $date
+     * @return bool
+     */
     private function monthsInclude(DateTimeInterface $date): bool
     {
         $month = Month::fromDateTime($date);
@@ -69,11 +81,13 @@ class RangeEachYear implements TemporalExpressionInterface
         }
     }
 
+    /**
+     * @param DateTimeInterface $date
+     * @return bool
+     */
     private function startMonthIncludes(DateTimeInterface $date): bool
     {
-        $month = Month::fromDateTime($date);
-
-        if (!$this->startMonth->equals($month)) {
+        if (!$this->startMonth->equals(Month::fromDateTime($date))) {
             return false;
         }
 
@@ -81,16 +95,16 @@ class RangeEachYear implements TemporalExpressionInterface
             return true;
         }
 
-        $day = MonthDay::fromNativeDateTime($date);
-
-        return $day->toNative() >= $this->startDay->toNative();
+        return $this->startDay->lte(MonthDay::fromDateTime($date));
     }
 
+    /**
+     * @param DateTimeInterface $date
+     * @return bool
+     */
     private function endMonthIncludes(DateTimeInterface $date): bool
     {
-        $month = Month::fromDateTime($date);
-
-        if (!$this->endMonth->equals($month)) {
+        if (!$this->endMonth->equals(Month::fromDateTime($date))) {
             return false;
         }
 
@@ -98,8 +112,6 @@ class RangeEachYear implements TemporalExpressionInterface
             return true;
         }
 
-        $day = MonthDay::fromNativeDateTime($date);
-
-        return $day->toNative() <= $this->endDay->toNative();
+        return $this->endDay->gte(MonthDay::fromDateTime($date));
     }
 }

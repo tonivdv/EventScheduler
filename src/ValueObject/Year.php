@@ -23,6 +23,15 @@ final class Year
     }
 
     /**
+     * @param Year $year
+     * @return bool
+     */
+    public function equals(Year $year): bool
+    {
+        return $this->value === $year->value();
+    }
+
+    /**
      * @return int
      */
     public function value(): int

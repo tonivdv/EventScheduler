@@ -1,38 +1,35 @@
 <?php
+
 namespace Riskio\EventSchedulerTest\ValueObject;
 
+use PHPUnit\Framework\TestCase;
 use Riskio\EventScheduler\ValueObject\WeekDay;
 
-class WeekDayTest extends \PHPUnit_Framework_TestCase
+final class WeekDayTest extends TestCase
 {
     public function getDataProvider()
     {
         return [
-            [1, WeekDay::MONDAY],
-            [2, WeekDay::TUESDAY],
-            [3, WeekDay::WEDNESDAY],
-            [4, WeekDay::THURSDAY],
-            [5, WeekDay::FRIDAY],
-            [6, WeekDay::SATURDAY],
-            [7, WeekDay::SUNDAY],
-            [WeekDay::MONDAY, WeekDay::MONDAY],
-            [WeekDay::TUESDAY, WeekDay::TUESDAY],
-            [WeekDay::WEDNESDAY, WeekDay::WEDNESDAY],
-            [WeekDay::THURSDAY, WeekDay::THURSDAY],
-            [WeekDay::FRIDAY, WeekDay::FRIDAY],
-            [WeekDay::SATURDAY, WeekDay::SATURDAY],
-            [WeekDay::SUNDAY, WeekDay::SUNDAY],
+            [1, WeekDay::monday()],
+            [2, WeekDay::tuesday()],
+            [3, WeekDay::wednesday()],
+            [4, WeekDay::thursday()],
+            [5, WeekDay::friday()],
+            [6, WeekDay::saturday()],
+            [7, WeekDay::sunday()],
         ];
     }
 
     /**
      * @test
      * @dataProvider getDataProvider
+     * @param int     $numericValue
+     * @param WeekDay $weekDay
      */
-    public function fromNativeOrNumericValue_GivenScalarValue_ShouldConstructWeekDayWithRelatedName($numericValue, $name)
-    {
-        $month = WeekDay::fromNativeOrNumericValue($numericValue);
-
-        $this->assertThat($name, $this->equalTo($month->getValue()));
+    public function fromNativeOrNumericValue_GivenScalarValue_ShouldConstructWeekDayWithRelatedName(
+        int $numericValue,
+        WeekDay $weekDay
+    ) {
+        $this->assertTrue($weekDay->equals(WeekDay::fromNumber($numericValue)));
     }
 }

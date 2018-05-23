@@ -46,7 +46,7 @@ class Scheduler implements SchedulerInterface
     }
 
     public function schedule(
-        Event $event,
+        EventInterface $event,
         TemporalExpressionInterface $temporalExpression
     ) : SchedulableEvent {
         $schedulableEvent = new SchedulableEvent($event, $temporalExpression);
@@ -60,14 +60,14 @@ class Scheduler implements SchedulerInterface
         $this->scheduledEvents->remove($schedulableEvent);
     }
 
-    public function isScheduled(Event $event) : bool
+    public function isScheduled(EventInterface $event) : bool
     {
         $scheduledEvents = $this->scheduledEvents->filterByEvent($event);
 
         return count($scheduledEvents) > 0;
     }
 
-    public function isOccurring(Event $event, DateTimeInterface $date) : bool
+    public function isOccurring(EventInterface $event, DateTimeInterface $date) : bool
     {
         $scheduledEvents = $this->scheduledEvents->filterByEvent($event);
         foreach ($scheduledEvents as $scheduledEvent) {
@@ -89,7 +89,7 @@ class Scheduler implements SchedulerInterface
         }
     }
 
-    public function dates(Event $event, DateRange $range) : Traversable
+    public function dates(EventInterface $event, DateRange $range) : Traversable
     {
         $start = $range->startDate();
         $end   = $range->endDate();
@@ -107,7 +107,7 @@ class Scheduler implements SchedulerInterface
     }
 
     public function nextOccurrence(
-        Event $event,
+        EventInterface $event,
         DateTimeInterface $start,
         DateTimeInterface $end = null
     ) : DateTimeImmutable {
@@ -120,7 +120,7 @@ class Scheduler implements SchedulerInterface
     }
 
     public function previousOccurrence(
-        Event $event,
+        EventInterface $event,
         DateTimeInterface $end,
         DateTimeInterface $start = null
     ) : DateTimeImmutable {
@@ -164,7 +164,7 @@ class Scheduler implements SchedulerInterface
         return new DateRangeReverseIterator($dateRange, $this->interval);
     }
 
-    private function findNextOccurrenceInIterator(Event $event, Traversable $dates) : DateTimeImmutable
+    private function findNextOccurrenceInIterator(EventInterface $event, Traversable $dates) : DateTimeImmutable
     {
         foreach ($dates as $date) {
             if ($this->isOccurring($event, $date)) {

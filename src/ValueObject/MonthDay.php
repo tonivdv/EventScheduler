@@ -42,6 +42,24 @@ final class MonthDay
     }
 
     /**
+     * @param MonthDay $monthDay
+     * @return bool
+     */
+    public function lte(MonthDay $monthDay): bool
+    {
+        return $this->value <= $monthDay->value();
+    }
+
+    /**
+     * @param MonthDay $monthDay
+     * @return bool
+     */
+    public function gte(MonthDay $monthDay): bool
+    {
+        return $this->value >= $monthDay->value();
+    }
+
+    /**
      * @param DateTimeInterface $dateTime
      * @return MonthDay
      */

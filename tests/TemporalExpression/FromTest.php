@@ -2,9 +2,10 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Riskio\EventScheduler\TemporalExpression\From;
 
-class FromTest extends \PHPUnit_Framework_TestCase
+class FromTest extends TestCase
 {
     /**
      * @test

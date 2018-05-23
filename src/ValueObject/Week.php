@@ -25,6 +25,23 @@ final class Week
     }
 
     /**
+     * @return int
+     */
+    public function value(): int
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param Week $week
+     * @return bool
+     */
+    public function equals(Week $week): bool
+    {
+        return $this->value === $week->value();
+    }
+
+    /**
      * @return Week
      */
     public static function now(): self

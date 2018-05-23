@@ -2,13 +2,14 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Riskio\EventScheduler\TemporalExpression\MonthInYear;
 use Riskio\EventScheduler\ValueObject\Month;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>
  */
-class MonthInYearTest extends \PHPUnit_Framework_TestCase
+class MonthInYearTest extends TestCase
 {
     /**
      * @test

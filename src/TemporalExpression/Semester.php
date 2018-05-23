@@ -4,22 +4,45 @@ namespace Riskio\EventScheduler\TemporalExpression;
 use DateTimeInterface;
 use Riskio\EventScheduler\ValueObject\Semester as SemesterValueObject;
 
-class Semester implements TemporalExpressionInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class Semester implements TemporalExpressionInterface
 {
     /**
      * @var SemesterValueObject
      */
     protected $semester;
 
-    public function __construct(int $semester)
+    /**
+     * @param SemesterValueObject $semester
+     */
+    private function __construct(SemesterValueObject $semester)
     {
-        $this->semester = new SemesterValueObject($semester);
+        $this->semester = $semester;
     }
 
-    public function includes(DateTimeInterface $date) : bool
+    /**
+     * @return Semester
+     */
+    public static function first(): self
     {
-        $semester = SemesterValueObject::fromNativeDateTime($date);
+        return new self(SemesterValueObject::first());
+    }
 
-        return $this->semester->sameValueAs($semester);
+    /**
+     * @return Semester
+     */
+    public static function second(): self
+    {
+        return new self(SemesterValueObject::second());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function includes(DateTimeInterface $dateTime) : bool
+    {
+        return $this->semester->equals(SemesterValueObject::fromDateTime($dateTime));
     }
 }

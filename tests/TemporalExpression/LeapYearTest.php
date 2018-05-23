@@ -2,9 +2,10 @@
 namespace Riskio\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
+use PHPUnit\Framework\TestCase;
 use Riskio\EventScheduler\TemporalExpression\LeapYear;
 
-class LeapYearTest extends \PHPUnit_Framework_TestCase
+class LeapYearTest extends TestCase
 {
     public function validLeapYearDataProvider()
     {

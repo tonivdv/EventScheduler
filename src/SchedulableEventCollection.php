@@ -40,7 +40,7 @@ class SchedulableEventCollection implements Countable, Iterator
         $this->events->detach($schedulableEvent);
     }
 
-    public function filterByEvent(Event $event) : self
+    public function filterByEvent(EventInterface $event) : self
     {
         $filteredEvents = array_filter(
             iterator_to_array($this->events),
