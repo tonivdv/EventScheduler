@@ -38,7 +38,7 @@ $scheduledEvent = $scheduler->schedule('event_name', new TemporalExpression\DayI
 If you want to cancel this event, you can provide the returned instance of `Adlogix\EventScheduler\SchedulableEvent` to the `Adlogix\EventScheduler\Scheduler::cancel` method.
 
 ```php
-$scheduler->schedule($scheduledEvent);
+$scheduler->cancel($scheduledEvent);
 ```
 
 ### Temporal Expressions
