@@ -1,9 +1,15 @@
 <?php
-namespace Riskio\EventScheduler;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler;
 
 use DateTimeInterface;
 
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
 interface Occurrable
 {
-    public function isOccurring(EventInterface $event, DateTimeInterface $date) : bool;
+    public function isOccurring(EventInterface $event, DateTimeInterface $date): bool;
 }

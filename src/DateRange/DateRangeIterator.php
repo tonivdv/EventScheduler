@@ -1,10 +1,20 @@
 <?php
-namespace Riskio\EventScheduler\DateRange;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\DateRange;
 
 use DateInterval;
 
-class DateRangeIterator extends AbstractDateRangeIterator
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class DateRangeIterator extends AbstractDateRangeIterator
 {
+    /**
+     * @param DateRange         $dateRange
+     * @param DateInterval|null $interval
+     */
     public function __construct(DateRange $dateRange, DateInterval $interval = null)
     {
         parent::__construct($dateRange, $interval);

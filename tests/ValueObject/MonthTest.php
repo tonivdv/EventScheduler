@@ -1,13 +1,16 @@
 <?php
 
-namespace Riskio\EventSchedulerTest\ValueObject;
+declare(strict_types=1);
 
-use Riskio\EventScheduler\ValueObject\Month;
+namespace Adlogix\EventSchedulerTest\ValueObject;
+
+use PHPUnit\Framework\TestCase;
+use Adlogix\EventScheduler\ValueObject\Month;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>
  */
-class MonthTest extends \PHPUnit_Framework_TestCase
+class MonthTest extends TestCase
 {
     /**
      * @return array

@@ -1,15 +1,18 @@
 <?php
 
-namespace Riskio\EventSchedulerTest\TemporalExpression;
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
 use DateTimeInterface;
-use Riskio\EventScheduler\TemporalExpression\Trimester;
+use PHPUnit\Framework\TestCase;
+use Adlogix\EventScheduler\TemporalExpression\Trimester;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>
  */
-final class TrimesterTest extends \PHPUnit_Framework_TestCase
+final class TrimesterTest extends TestCase
 {
     public function getSuccessfulDataProvider()
     {

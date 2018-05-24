@@ -1,9 +1,12 @@
 <?php
-namespace Riskio\EventSchedulerTest\TemporalExpression;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use Riskio\EventScheduler\TemporalExpression\DayInMonth;
+use Adlogix\EventScheduler\TemporalExpression\DayInMonth;
 
 class DayInMonthTest extends TestCase
 {

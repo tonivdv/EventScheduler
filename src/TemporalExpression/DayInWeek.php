@@ -1,9 +1,11 @@
 <?php
 
-namespace Riskio\EventScheduler\TemporalExpression;
+declare(strict_types=1);
 
+namespace Adlogix\EventScheduler\TemporalExpression;
+
+use Adlogix\EventScheduler\ValueObject\WeekDay;
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\WeekDay;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>

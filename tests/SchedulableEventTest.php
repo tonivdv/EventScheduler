@@ -1,14 +1,19 @@
 <?php
-namespace Riskio\EventSchedulerTest;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest;
 
 use DateTime;
-use Riskio\EventScheduler\EventInterface;
-use Riskio\EventScheduler\SchedulableEvent;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
-use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
-use Riskio\EventSchedulerTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
+use PHPUnit\Framework\TestCase;
+use PHPUnit_Framework_MockObject_MockObject;
+use Adlogix\EventScheduler\EventInterface;
+use Adlogix\EventScheduler\SchedulableEvent;
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Adlogix\EventSchedulerTest\Fixtures\TemporalExpression\AlwaysOccurringTemporalExpression;
+use Adlogix\EventSchedulerTest\Fixtures\TemporalExpression\NeverOccurringTemporalExpression;
 
-class SchedulableEventTest extends \PHPUnit_Framework_TestCase
+class SchedulableEventTest extends TestCase
 {
     /**
      * @test
@@ -20,8 +25,9 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
             ->method('equals')
             ->will($this->returnValue(true));
 
-        $anyDate  = new DateTime();
+        $anyDate = new DateTime();
 
+        /** @var TemporalExpressionInterface|PHPUnit_Framework_MockObject_MockObject $exprMock */
         $exprMock = $this->createMock(TemporalExpressionInterface::class);
         $exprMock
             ->expects($this->once())
@@ -64,7 +70,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
             ->method('equals')
             ->will($this->returnValue(true));
 
-        $anyDate  = new DateTime();
+        $anyDate = new DateTime();
 
         $expr = new AlwaysOccurringTemporalExpression();
 
@@ -85,7 +91,7 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
             ->method('equals')
             ->will($this->returnValue(true));
 
-        $anyDate  = new DateTime();
+        $anyDate = new DateTime();
 
         $expr = new NeverOccurringTemporalExpression();
 
@@ -96,12 +102,18 @@ class SchedulableEventTest extends \PHPUnit_Framework_TestCase
         $this->assertThat($isOccurring, $this->isFalse());
     }
 
-    private function getTemporalExpression()
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|TemporalExpressionInterface
+     */
+    private function getTemporalExpression():TemporalExpressionInterface
     {
         return $this->createMock(TemporalExpressionInterface::class);
     }
 
-    private function getEvent()
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|EventInterface
+     */
+    private function getEvent():EventInterface
     {
         return $this->createMock(EventInterface::class);
     }

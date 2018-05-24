@@ -1,73 +1,68 @@
 <?php
-namespace Riskio\EventScheduler;
 
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler;
+
+use Adlogix\EventScheduler\DateRange\DateRange;
+use Adlogix\EventScheduler\DateRange\DateRangeIterator;
+use Adlogix\EventScheduler\DateRange\DateRangeReverseIterator;
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use DateInterval;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Riskio\EventScheduler\DateRange\DateRange;
-use Riskio\EventScheduler\DateRange\DateRangeIterator;
-use Riskio\EventScheduler\DateRange\DateRangeReverseIterator;
-use Riskio\EventScheduler\DateRange\DefaultDateRangeFactory;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Traversable;
 
-class Scheduler implements SchedulerInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class Scheduler implements SchedulerInterface
 {
     /**
      * @var SchedulableEventCollection
      */
-    protected $scheduledEvents;
+    private $scheduledEvents;
 
-    /**
-     * @var DateRange
-     */
-    protected $dateRange;
-
-    /**
-     * @var DateInterval
-     */
-    protected $interval;
-
-    public function __construct(DateInterval $interval, DateRange $dateRange)
+    public function __construct()
     {
-        $this->interval  = $interval;
-        $this->dateRange = $dateRange;
         $this->scheduledEvents = new SchedulableEventCollection();
     }
 
-    public static function create(
-        DateInterval $interval = null,
-        DateRange $dateRange = null
-    ) : SchedulerInterface {
-        $interval  = $interval ?: new DateInterval('P1D');
-        $dateRange = $dateRange ?: DefaultDateRangeFactory::create(new DateTimeImmutable());
-
-        return new self($interval, $dateRange);
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function schedule(
         EventInterface $event,
         TemporalExpressionInterface $temporalExpression
-    ) : SchedulableEvent {
+    ): SchedulableEvent {
         $schedulableEvent = new SchedulableEvent($event, $temporalExpression);
         $this->scheduledEvents->add($schedulableEvent);
 
         return $schedulableEvent;
     }
 
-    public function unschedule(SchedulableEvent $schedulableEvent)
+    /**
+     * {@inheritdoc}
+     */
+    public function cancel(SchedulableEvent $schedulableEvent): void
     {
         $this->scheduledEvents->remove($schedulableEvent);
     }
 
-    public function isScheduled(EventInterface $event) : bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isScheduled(EventInterface $event): bool
     {
         $scheduledEvents = $this->scheduledEvents->filterByEvent($event);
 
         return count($scheduledEvents) > 0;
     }
 
-    public function isOccurring(EventInterface $event, DateTimeInterface $date) : bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isOccurring(EventInterface $event, DateTimeInterface $date): bool
     {
         $scheduledEvents = $this->scheduledEvents->filterByEvent($event);
         foreach ($scheduledEvents as $scheduledEvent) {
@@ -79,7 +74,10 @@ class Scheduler implements SchedulerInterface
         return false;
     }
 
-    public function eventsForDate(DateTimeInterface $date) : Traversable
+    /**
+     * {@inheritdoc}
+     */
+    public function eventsForDate(DateTimeInterface $date): Traversable
     {
         foreach ($this->scheduledEvents as $scheduledEvent) {
             $event = $scheduledEvent->event();
@@ -89,82 +87,77 @@ class Scheduler implements SchedulerInterface
         }
     }
 
-    public function dates(EventInterface $event, DateRange $range) : Traversable
+    /**
+     * {@inheritdoc}
+     */
+    public function dates(EventInterface $event, DateRange $range): Traversable
     {
-        $start = $range->startDate();
-        $end   = $range->endDate();
+        $iterator = $this->createDateRangeIterator($range);
 
-        do {
-            try {
-                $foundDate = $this->nextOccurrence($event, $start);
-            } catch (Exception\NotFoundEventOccurenceException $e) {
-                break;
+        while ($iterator->valid()) {
+
+            if ($this->isOccurring($event, $iterator->current())) {
+                $foundDates = $iterator->current();
+                yield $foundDates;
             }
-
-            yield $foundDate;
-            $start = $foundDate->add($this->interval);
-        } while ($foundDate && $foundDate < $end);
+            $iterator->next();
+        }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function nextOccurrence(
         EventInterface $event,
-        DateTimeInterface $start,
-        DateTimeInterface $end = null
-    ) : DateTimeImmutable {
-        $end = $end ?: $this->dateRange()->endDate();
-
+        DateRange $range
+    ): DateTimeImmutable {
         return $this->findNextOccurrenceInIterator(
             $event,
-            $this->createDateRangeIterator($start, $end)
+            $this->createDateRangeIterator($range)
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function previousOccurrence(
         EventInterface $event,
-        DateTimeInterface $end,
-        DateTimeInterface $start = null
-    ) : DateTimeImmutable {
-        $start = $start ?: $this->dateRange()->startDate();
-
+        DateRange $range
+    ): DateTimeImmutable {
         return $this->findNextOccurrenceInIterator(
             $event,
-            $this->createDateRangeReverseIterator($end, $start)
+            $this->createDateRangeReverseIterator($range)
         );
     }
 
-    public function dateRange() : DateRange
-    {
-        return $this->dateRange;
-    }
-
-    public function changeDateRange(DateRange $range)
-    {
-        $this->dateRange = $range;
-    }
-
+    /**
+     * @param DateRange $range
+     * @return DateRangeIterator
+     * @throws \Exception
+     */
     private function createDateRangeIterator(
-        DateTimeInterface $start,
-        DateTimeInterface $end = null
-    ) : DateRangeIterator {
-        $dateRange = ($end instanceof DateTimeInterface)
-            ? $this->dateRange->extract($start, $end)
-            : $this->dateRange->extractFromStartDate($start);
-
-        return new DateRangeIterator($dateRange, $this->interval);
+        DateRange $range
+    ): DateRangeIterator {
+        return new DateRangeIterator($range, new DateInterval('P1D'));
     }
 
+    /**
+     * @param DateRange $range
+     * @return DateRangeReverseIterator
+     * @throws \Exception
+     */
     private function createDateRangeReverseIterator(
-        DateTimeInterface $end,
-        DateTimeInterface $start = null
-    ) : DateRangeReverseIterator {
-        $dateRange = ($start instanceof DateTimeInterface)
-            ? $this->dateRange->extract($start, $end)
-            : $this->dateRange->extractFromEndDate($end);
-
-        return new DateRangeReverseIterator($dateRange, $this->interval);
+        DateRange $range
+    ): DateRangeReverseIterator {
+        return new DateRangeReverseIterator($range, new DateInterval('P1D'));
     }
 
-    private function findNextOccurrenceInIterator(EventInterface $event, Traversable $dates) : DateTimeImmutable
+    /**
+     * @param EventInterface $event
+     * @param Traversable    $dates
+     * @return DateTimeImmutable
+     */
+    private function findNextOccurrenceInIterator(EventInterface $event, Traversable $dates): DateTimeImmutable
     {
         foreach ($dates as $date) {
             if ($this->isOccurring($event, $date)) {
@@ -172,6 +165,6 @@ class Scheduler implements SchedulerInterface
             }
         }
 
-        throw Exception\NotFoundEventOccurenceException::create();
+        throw Exception\NotFoundEventOccurrenceException::create();
     }
 }

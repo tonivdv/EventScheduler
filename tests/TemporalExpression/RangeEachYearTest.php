@@ -1,12 +1,14 @@
 <?php
 
-namespace Riskio\EventSchedulerTest\TemporalExpression;
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use Riskio\EventScheduler\TemporalExpression\RangeEachYear;
-use Riskio\EventScheduler\ValueObject\Month;
-use Riskio\EventScheduler\ValueObject\MonthDay;
+use Adlogix\EventScheduler\TemporalExpression\RangeEachYear;
+use Adlogix\EventScheduler\ValueObject\Month;
+use Adlogix\EventScheduler\ValueObject\MonthDay;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>

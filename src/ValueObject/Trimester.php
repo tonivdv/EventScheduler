@@ -1,6 +1,8 @@
 <?php
 
-namespace Riskio\EventScheduler\ValueObject;
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\ValueObject;
 
 use DateTime;
 use Webmozart\Assert\Assert;
@@ -89,6 +91,6 @@ final class Trimester
     public static function fromNDateTime(\DateTimeInterface $date): self
     {
         $semester = ceil($date->format('n') / 3);
-        return new self($semester);
+        return new self((int)$semester);
     }
 }

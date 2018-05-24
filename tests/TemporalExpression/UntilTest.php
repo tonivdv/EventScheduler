@@ -1,10 +1,14 @@
 <?php
-namespace Riskio\EventSchedulerTest\TemporalExpression;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\Until;
+use PHPUnit\Framework\TestCase;
+use Adlogix\EventScheduler\TemporalExpression\Until;
 
-class UntilTest extends \PHPUnit_Framework_TestCase
+class UntilTest extends TestCase
 {
     /**
      * @test

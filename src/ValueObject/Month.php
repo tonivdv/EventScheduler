@@ -1,6 +1,8 @@
 <?php
 
-namespace Riskio\EventScheduler\ValueObject;
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\ValueObject;
 
 use DateTimeInterface;
 
@@ -141,7 +143,7 @@ final class Month
      */
     final public static function fromDateTime(DateTimeInterface $dateTime): self
     {
-        return Month::fromNumber($dateTime->format('n'));
+        return Month::fromNumber((int)$dateTime->format('n'));
     }
 
     /**

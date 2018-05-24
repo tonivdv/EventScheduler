@@ -1,6 +1,8 @@
 <?php
 
-namespace Riskio\EventScheduler\ValueObject;
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\ValueObject;
 
 use DateTimeInterface;
 
@@ -45,6 +47,6 @@ final class Year
      */
     public static function fromDateTime(DateTimeInterface $dateTime): self
     {
-        return new self($dateTime->format('Y'));
+        return new self((int)$dateTime->format('Y'));
     }
 }

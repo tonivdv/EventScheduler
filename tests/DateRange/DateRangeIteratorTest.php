@@ -1,11 +1,15 @@
 <?php
-namespace Riskio\EventSchedulerTest\DateRange;
 
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\DateRange;
+
+use Adlogix\EventScheduler\DateRange\DateRange;
+use Adlogix\EventScheduler\DateRange\DateRangeIterator;
 use DateTimeImmutable;
-use Riskio\EventScheduler\DateRange\DateRange;
-use Riskio\EventScheduler\DateRange\DateRangeIterator;
+use PHPUnit\Framework\TestCase;
 
-class DateRangeIteratorTest extends \PHPUnit_Framework_TestCase
+class DateRangeIteratorTest extends TestCase
 {
     protected $expectedDates = [];
 
@@ -26,10 +30,10 @@ class DateRangeIteratorTest extends \PHPUnit_Framework_TestCase
     public function dateRange_ShouldIterate()
     {
         $startDate = new DateTimeImmutable('2015-03-01');
-        $endDate   = new DateTimeImmutable('2015-03-05');
+        $endDate = new DateTimeImmutable('2015-03-05');
 
-        $range     = new DateRange($startDate, $endDate);
-        $iterator  = new DateRangeIterator($range);
+        $range = new DateRange($startDate, $endDate);
+        $iterator = new DateRangeIterator($range);
 
         foreach ($iterator as $key => $date) {
             $this->assertEquals($this->expectedDates[$key], $date);

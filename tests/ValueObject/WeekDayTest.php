@@ -1,9 +1,11 @@
 <?php
 
-namespace Riskio\EventSchedulerTest\ValueObject;
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\ValueObject;
 
 use PHPUnit\Framework\TestCase;
-use Riskio\EventScheduler\ValueObject\WeekDay;
+use Adlogix\EventScheduler\ValueObject\WeekDay;
 
 final class WeekDayTest extends TestCase
 {

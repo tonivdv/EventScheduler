@@ -1,5 +1,8 @@
 <?php
-namespace Riskio\EventScheduler\TemporalExpression;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\TemporalExpression;
 
 use DateTimeInterface;
 
@@ -11,7 +14,7 @@ final class LeapYear implements TemporalExpressionInterface
     /**
      * {@inheritdoc}
      */
-    public function includes(DateTimeInterface $date) : bool
+    public function includes(DateTimeInterface $date): bool
     {
         return $date->format('L') == 1;
     }

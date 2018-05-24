@@ -1,10 +1,13 @@
 <?php
-namespace Riskio\EventSchedulerTest\TemporalExpression;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
-use Riskio\EventScheduler\TemporalExpression\Difference;
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Adlogix\EventScheduler\TemporalExpression\Difference;
 
 class DifferenceTest extends TestCase
 {

@@ -1,6 +1,8 @@
 <?php
 
-namespace Riskio\EventScheduler\ValueObject;
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\ValueObject;
 
 use DateTimeInterface;
 use Webmozart\Assert\Assert;
@@ -65,6 +67,6 @@ final class MonthDay
      */
     public static function fromDateTime(DateTimeInterface $dateTime): self
     {
-        return new self($dateTime->format('j'));
+        return new self((int)$dateTime->format('j'));
     }
 }

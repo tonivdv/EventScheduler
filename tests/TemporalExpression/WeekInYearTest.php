@@ -1,11 +1,14 @@
 <?php
 
-namespace Riskio\EventSchedulerTest\TemporalExpression;
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\WeekInYear;
+use PHPUnit\Framework\TestCase;
+use Adlogix\EventScheduler\TemporalExpression\WeekInYear;
 
-class WeekInYearTest extends \PHPUnit_Framework_TestCase
+class WeekInYearTest extends TestCase
 {
     /**
      * @test

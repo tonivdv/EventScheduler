@@ -9,16 +9,15 @@
  * file that was distributed with this source code.
  */
 
-use Riskio\EventScheduler\BasicEvent;
-use Riskio\EventScheduler\Comparable;
-use Riskio\EventScheduler\TemporalExpression\Collection\Intersection;
-use Riskio\EventScheduler\TemporalExpression\Collection\Union;
-use Riskio\EventScheduler\TemporalExpression\DayInWeek;
-use Riskio\EventScheduler\TemporalExpression\Difference;
-use Riskio\EventScheduler\TemporalExpression\From;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
-use Riskio\EventScheduler\TemporalExpression\Until;
-use Riskio\EventScheduler\TemporalExpression\WeekInYear;
+use Adlogix\EventScheduler\BasicEvent;
+use Adlogix\EventScheduler\TemporalExpression\Collection\Intersection;
+use Adlogix\EventScheduler\TemporalExpression\Collection\Union;
+use Adlogix\EventScheduler\TemporalExpression\DayInWeek;
+use Adlogix\EventScheduler\TemporalExpression\Difference;
+use Adlogix\EventScheduler\TemporalExpression\From;
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Adlogix\EventScheduler\TemporalExpression\Until;
+use Adlogix\EventScheduler\TemporalExpression\WeekInYear;
 
 require "vendor/autoload.php";
 
@@ -47,7 +46,7 @@ final class FixedDay implements TemporalExpressionInterface
     }
 }
 
-$scheduler = \Riskio\EventScheduler\Scheduler::create();
+$scheduler = new \Adlogix\EventScheduler\Scheduler();
 
 $titleFixedDayExpression = new Union();
 $titleFixedDayExpression
@@ -82,7 +81,7 @@ echo var_export($scheduler->isOccurring($myEvent, new DateTime('2018-05-16'))) .
 
 
 $dates = $scheduler->dates($myEvent,
-    new \Riskio\EventScheduler\DateRange\DateRange(new DateTime('2018-01-01'), new DateTime('2018-12-31')));
+    new \Adlogix\EventScheduler\DateRange\DateRange(new DateTime('2018-01-01'), new DateTime('2018-12-31')));
 foreach ($dates as $date) {
     echo "- " . $date->format('Y-m-d') . "\n";
 }

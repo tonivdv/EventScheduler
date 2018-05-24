@@ -1,11 +1,15 @@
 <?php
-namespace Riskio\EventSchedulerTest\TemporalExpression\Collection;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression\Collection;
 
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
-use Riskio\EventScheduler\TemporalExpression\Collection\Intersection;
+use PHPUnit\Framework\TestCase;
+use Adlogix\EventScheduler\TemporalExpression\Collection\Intersection;
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
-class IntersectionTest extends \PHPUnit_Framework_TestCase
+class IntersectionTest extends TestCase
 {
     public function getDataProvider()
     {

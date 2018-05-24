@@ -1,6 +1,8 @@
 <?php
 
-namespace Riskio\EventScheduler\ValueObject;
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\ValueObject;
 
 use DateTimeInterface;
 use Webmozart\Assert\Assert;
@@ -103,7 +105,7 @@ final class WeekDay
      */
     final public static function fromDateTime(DateTimeInterface $dateTime): self
     {
-        return WeekDay::fromNumber($dateTime->format('N'));
+        return WeekDay::fromNumber((int)$dateTime->format('N'));
     }
 
     /**

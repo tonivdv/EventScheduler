@@ -1,10 +1,16 @@
 <?php
-namespace Riskio\EventScheduler\DateRange;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\DateRange;
 
 use DateInterval;
 use DateTimeImmutable;
 use Iterator;
 
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
 abstract class AbstractDateRangeIterator implements Iterator
 {
     /**
@@ -27,23 +33,36 @@ abstract class AbstractDateRangeIterator implements Iterator
      */
     protected $current;
 
+    /**
+     * @param DateRange         $dateRange
+     * @param DateInterval|null $interval
+     */
     public function __construct(DateRange $dateRange, DateInterval $interval = null)
     {
         $this->dateRange = $dateRange;
-        $this->interval  = $interval ?: new DateInterval('P1D');
+        $this->interval = $interval ?: new DateInterval('P1D');
     }
 
-    public function current() : DateTimeImmutable
+    /**
+     * @return DateTimeImmutable
+     */
+    public function current(): DateTimeImmutable
     {
         return $this->current;
     }
 
-    public function key() : int
+    /**
+     * @return int
+     */
+    public function key(): int
     {
         return $this->key;
     }
 
-    public function valid() : bool
+    /**
+     * @return bool
+     */
+    public function valid(): bool
     {
         return $this->current >= $this->dateRange->startDate()
             && $this->current <= $this->dateRange->endDate();

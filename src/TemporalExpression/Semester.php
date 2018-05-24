@@ -1,8 +1,11 @@
 <?php
-namespace Riskio\EventScheduler\TemporalExpression;
 
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\TemporalExpression;
+
+use Adlogix\EventScheduler\ValueObject\Semester as SemesterValueObject;
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\Semester as SemesterValueObject;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>
@@ -41,7 +44,7 @@ final class Semester implements TemporalExpressionInterface
     /**
      * {@inheritdoc}
      */
-    public function includes(DateTimeInterface $dateTime) : bool
+    public function includes(DateTimeInterface $dateTime): bool
     {
         return $this->semester->equals(SemesterValueObject::fromDateTime($dateTime));
     }

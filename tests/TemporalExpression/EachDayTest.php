@@ -1,9 +1,11 @@
 <?php
 
-namespace Riskio\EventSchedulerTest\TemporalExpression;
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression;
 
 use PHPUnit\Framework\TestCase;
-use Riskio\EventScheduler\TemporalExpression\EachDay;
+use Adlogix\EventScheduler\TemporalExpression\EachDay;
 
 class EachDayTest extends TestCase
 {

@@ -1,6 +1,8 @@
 <?php
 
-namespace Riskio\EventScheduler\TemporalExpression\Collection;
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\TemporalExpression\Collection;
 
 use DateTimeInterface;
 

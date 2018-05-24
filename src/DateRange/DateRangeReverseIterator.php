@@ -1,23 +1,38 @@
 <?php
-namespace Riskio\EventScheduler\DateRange;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\DateRange;
 
 use DateInterval;
 
-class DateRangeReverseIterator extends AbstractDateRangeIterator
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class DateRangeReverseIterator extends AbstractDateRangeIterator
 {
+    /**
+     * {@inheritdoc}
+     */
     public function __construct(DateRange $dateRange, DateInterval $interval = null)
     {
         parent::__construct($dateRange, $interval);
         $this->current = $dateRange->endDate();
     }
 
-    public function next()
+    /**
+     * {@inheritdoc}
+     */
+    public function next(): void
     {
         $this->current = $this->current->sub($this->interval);
         $this->key++;
     }
 
-    public function rewind()
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind(): void
     {
         $this->key = 0;
         $this->current = $this->dateRange->endDate();

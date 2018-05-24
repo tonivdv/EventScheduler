@@ -1,8 +1,11 @@
 <?php
-namespace Riskio\EventScheduler\TemporalExpression;
 
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\TemporalExpression;
+
+use Adlogix\EventScheduler\ValueObject\Year as YearValueObject;
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\Year as YearValueObject;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>
@@ -25,7 +28,7 @@ final class Year implements TemporalExpressionInterface
     /**
      * {@inheritdoc}
      */
-    public function includes(DateTimeInterface $date) : bool
+    public function includes(DateTimeInterface $date): bool
     {
         return $this->year->equals(YearValueObject::fromDateTime($date));
     }

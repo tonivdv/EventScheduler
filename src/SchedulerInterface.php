@@ -1,46 +1,71 @@
 <?php
-namespace Riskio\EventScheduler;
 
-use DateInterval;
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler;
+
+use Adlogix\EventScheduler\DateRange\DateRange;
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use DateTimeImmutable;
 use DateTimeInterface;
-use Riskio\EventScheduler\DateRange\DateRange;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use Traversable;
 
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
 interface SchedulerInterface extends Occurrable
 {
-    public static function create(
-        DateInterval $interval = null,
-        DateRange $dateRange = null
-    ) : self;
-
+    /**
+     * @param EventInterface              $event
+     * @param TemporalExpressionInterface $temporalExpression
+     * @return SchedulableEvent
+     */
     public function schedule(
         EventInterface $event,
         TemporalExpressionInterface $temporalExpression
-    ) : SchedulableEvent;
+    ): SchedulableEvent;
 
-    public function unschedule(SchedulableEvent $schedulableEvent);
+    /**
+     * @param SchedulableEvent $schedulableEvent
+     */
+    public function cancel(SchedulableEvent $schedulableEvent): void;
 
-    public function isScheduled(EventInterface $event) : bool;
+    /**
+     * @param EventInterface $event
+     * @return bool
+     */
+    public function isScheduled(EventInterface $event): bool;
 
-    public function eventsForDate(DateTimeInterface $date) : Traversable;
+    /**
+     * @param DateTimeInterface $date
+     * @return Traversable
+     */
+    public function eventsForDate(DateTimeInterface $date): Traversable;
 
-    public function dates(EventInterface $event, DateRange $range) : Traversable;
+    /**
+     * @param EventInterface $event
+     * @param DateRange      $range
+     * @return DateTimeImmutable[]|Traversable
+     */
+    public function dates(EventInterface $event, DateRange $range): Traversable;
 
+    /**
+     * @param EventInterface $event
+     * @param DateRange      $range
+     * @return DateTimeImmutable
+     */
     public function nextOccurrence(
         EventInterface $event,
-        DateTimeInterface $start,
-        DateTimeInterface $end = null
-    ) : DateTimeImmutable;
+        DateRange $range
+    ): DateTimeImmutable;
 
+    /**
+     * @param EventInterface $event
+     * @param DateRange      $range
+     * @return DateTimeImmutable
+     */
     public function previousOccurrence(
         EventInterface $event,
-        DateTimeInterface $end,
-        DateTimeInterface $start = null
-    ) : DateTimeImmutable;
-
-    public function dateRange() : DateRange;
-
-    public function changeDateRange(DateRange $range);
+        DateRange $range
+    ): DateTimeImmutable;
 }

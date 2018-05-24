@@ -1,9 +1,15 @@
 <?php
-namespace Riskio\EventScheduler\Exception;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\Exception;
 
 use Exception;
 
-class NotFoundEventOccurenceException
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class NotFoundEventOccurrenceException
     extends \RuntimeException
     implements ExceptionInterface
 {

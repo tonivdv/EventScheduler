@@ -1,9 +1,11 @@
 <?php
 
-namespace Riskio\EventScheduler\TemporalExpression;
+declare(strict_types=1);
 
+namespace Adlogix\EventScheduler\TemporalExpression;
+
+use Adlogix\EventScheduler\ValueObject\Trimester as TrimesterValueObject;
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\Trimester as TrimesterValueObject;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>

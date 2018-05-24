@@ -1,11 +1,20 @@
 <?php
-namespace Riskio\EventSchedulerTest\Fixtures\TemporalExpression;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\Fixtures\TemporalExpression;
 
 use DateTimeInterface;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
-class AlwaysOccurringTemporalExpression implements TemporalExpressionInterface
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class AlwaysOccurringTemporalExpression implements TemporalExpressionInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function includes(DateTimeInterface $date) : bool
     {
         return true;

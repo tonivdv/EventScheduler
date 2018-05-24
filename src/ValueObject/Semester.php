@@ -1,6 +1,8 @@
 <?php
 
-namespace Riskio\EventScheduler\ValueObject;
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\ValueObject;
 
 use DateTime;
 use DateTimeInterface;
@@ -74,7 +76,7 @@ final class Semester
     {
         $semester = ceil($dateTime->format('n') / 6);
 
-        return new self($semester);
+        return new self((int)$semester);
     }
 
     /**

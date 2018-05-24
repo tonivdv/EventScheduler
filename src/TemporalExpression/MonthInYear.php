@@ -1,9 +1,11 @@
 <?php
 
-namespace Riskio\EventScheduler\TemporalExpression;
+declare(strict_types=1);
 
+namespace Adlogix\EventScheduler\TemporalExpression;
+
+use Adlogix\EventScheduler\ValueObject\Month;
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\Month;
 
 /**
  * @author Toni Van de Voorde <toni@adlogix.eu>

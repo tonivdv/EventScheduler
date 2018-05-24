@@ -1,9 +1,15 @@
 <?php
-namespace Riskio\EventScheduler\TemporalExpression\Collection;
 
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler\TemporalExpression\Collection;
+
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use DateTimeInterface;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
 abstract class AbstractCollection implements TemporalExpressionInterface
 {
     /**
@@ -15,7 +21,7 @@ abstract class AbstractCollection implements TemporalExpressionInterface
      * @param TemporalExpressionInterface $temporalExpression
      * @return AbstractCollection
      */
-    public function addElement(TemporalExpressionInterface $temporalExpression) : self
+    public function addElement(TemporalExpressionInterface $temporalExpression): self
     {
         $this->elements[] = $temporalExpression;
         return $this;
@@ -25,5 +31,5 @@ abstract class AbstractCollection implements TemporalExpressionInterface
      * @param DateTimeInterface $date
      * @return bool
      */
-    abstract public function includes(DateTimeInterface $date) : bool;
+    abstract public function includes(DateTimeInterface $date): bool;
 }

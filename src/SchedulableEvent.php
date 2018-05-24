@@ -1,10 +1,16 @@
 <?php
-namespace Riskio\EventScheduler;
 
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler;
+
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 use DateTimeInterface;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
-class SchedulableEvent implements Occurrable
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class SchedulableEvent implements Occurrable
 {
     /**
      * @var EventInterface
@@ -16,23 +22,36 @@ class SchedulableEvent implements Occurrable
      */
     protected $temporalExpression;
 
+    /**
+     * @param EventInterface              $event
+     * @param TemporalExpressionInterface $temporalExpression
+     */
     public function __construct(EventInterface $event, TemporalExpressionInterface $temporalExpression)
     {
         $this->event = $event;
         $this->temporalExpression = $temporalExpression;
     }
 
-    public function event() : EventInterface
+    /**
+     * @return EventInterface
+     */
+    public function event(): EventInterface
     {
         return $this->event;
     }
 
-    public function temporalExpression() : TemporalExpressionInterface
+    /**
+     * @return TemporalExpressionInterface
+     */
+    public function temporalExpression(): TemporalExpressionInterface
     {
         return $this->temporalExpression;
     }
 
-    public function isOccurring(EventInterface $event, DateTimeInterface $date) : bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isOccurring(EventInterface $event, DateTimeInterface $date): bool
     {
         return $this->event->equals($event) && $this->temporalExpression->includes($date);
     }

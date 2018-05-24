@@ -1,10 +1,13 @@
 <?php
-namespace Riskio\EventSchedulerTest\TemporalExpression;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression;
 
 use DateTime;
 use PHPUnit\Framework\TestCase;
-use Riskio\EventScheduler\TemporalExpression\DayInWeek;
-use Riskio\EventScheduler\ValueObject\WeekDay;
+use Adlogix\EventScheduler\TemporalExpression\DayInWeek;
+use Adlogix\EventScheduler\ValueObject\WeekDay;
 
 class DayInWeekTest extends TestCase
 {

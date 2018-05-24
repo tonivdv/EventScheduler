@@ -1,17 +1,26 @@
 <?php
-namespace Riskio\EventScheduler;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventScheduler;
 
 use Countable;
 use Iterator;
 use SplObjectStorage;
 
-class SchedulableEventCollection implements Countable, Iterator
+/**
+ * @author Toni Van de Voorde <toni@adlogix.eu>
+ */
+final class SchedulableEventCollection implements Countable, Iterator
 {
     /**
-     * @var SplObjectStorage
+     * @var SplObjectStorage|SchedulableEvent[]
      */
     private $events;
 
+    /**
+     * @param array $events
+     */
     public function __construct(array $events = [])
     {
         $this->events = new SplObjectStorage;
@@ -21,16 +30,26 @@ class SchedulableEventCollection implements Countable, Iterator
         }
     }
 
+    /**
+     * @param SchedulableEvent $schedulableEvent
+     */
     public function add(SchedulableEvent $schedulableEvent)
     {
         $this->events->attach($schedulableEvent);
     }
 
-    public function contains(SchedulableEvent $schedulableEvent) : bool
+    /**
+     * @param SchedulableEvent $schedulableEvent
+     * @return bool
+     */
+    public function contains(SchedulableEvent $schedulableEvent): bool
     {
         return $this->events->contains($schedulableEvent);
     }
 
+    /**
+     * @param SchedulableEvent $schedulableEvent
+     */
     public function remove(SchedulableEvent $schedulableEvent)
     {
         if (!$this->events->contains($schedulableEvent)) {
@@ -40,11 +59,15 @@ class SchedulableEventCollection implements Countable, Iterator
         $this->events->detach($schedulableEvent);
     }
 
-    public function filterByEvent(EventInterface $event) : self
+    /**
+     * @param EventInterface $event
+     * @return SchedulableEventCollection
+     */
+    public function filterByEvent(EventInterface $event): self
     {
         $filteredEvents = array_filter(
             iterator_to_array($this->events),
-            function($scheduledEvent) use ($event) {
+            function (SchedulableEvent $scheduledEvent) use ($event) {
                 return $event->equals($scheduledEvent->event());
             }
         );
@@ -52,32 +75,50 @@ class SchedulableEventCollection implements Countable, Iterator
         return new self($filteredEvents);
     }
 
-    public function current() : SchedulableEvent
+    /**
+     * {@inheritdoc}
+     */
+    public function current(): SchedulableEvent
     {
         return $this->events->current();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function next()
     {
         $this->events->next();
     }
 
-    public function key() : int
+    /**
+     * {@inheritdoc}
+     */
+    public function key(): int
     {
         return $this->events->key();
     }
 
-    public function valid() : bool
+    /**
+     * {@inheritdoc}
+     */
+    public function valid(): bool
     {
         return $this->events->valid();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function rewind()
     {
         $this->events->rewind();
     }
 
-    public function count() : int
+    /**
+     * {@inheritdoc}
+     */
+    public function count(): int
     {
         return $this->events->count();
     }

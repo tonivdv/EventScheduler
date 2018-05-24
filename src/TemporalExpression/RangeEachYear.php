@@ -1,14 +1,14 @@
 <?php
 
-namespace Riskio\EventScheduler\TemporalExpression;
+declare(strict_types=1);
 
+namespace Adlogix\EventScheduler\TemporalExpression;
+
+use Adlogix\EventScheduler\ValueObject\Month;
+use Adlogix\EventScheduler\ValueObject\MonthDay;
 use DateTimeInterface;
-use Riskio\EventScheduler\ValueObject\Month;
-use Riskio\EventScheduler\ValueObject\MonthDay;
 
 /**
- *
- *
  * @author Toni Van de Voorde <toni@adlogix.eu>
  */
 final class RangeEachYear implements TemporalExpressionInterface

@@ -1,11 +1,15 @@
 <?php
-namespace Riskio\EventSchedulerTest\DateRange;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\DateRange;
 
 use DateTimeImmutable;
-use Riskio\EventScheduler\DateRange\DateRange;
-use Riskio\EventScheduler\DateRange\DateRangeReverseIterator;
+use PHPUnit\Framework\TestCase;
+use Adlogix\EventScheduler\DateRange\DateRange;
+use Adlogix\EventScheduler\DateRange\DateRangeReverseIterator;
 
-class DateRangeReverseIteratorTest extends \PHPUnit_Framework_TestCase
+class DateRangeReverseIteratorTest extends TestCase
 {
     protected $expectedDates = [];
 

@@ -1,11 +1,15 @@
 <?php
-namespace Riskio\EventSchedulerTest\TemporalExpression\Collection;
+
+declare(strict_types=1);
+
+namespace Adlogix\EventSchedulerTest\TemporalExpression\Collection;
 
 use DateTime;
-use Riskio\EventScheduler\TemporalExpression\TemporalExpressionInterface;
-use Riskio\EventScheduler\TemporalExpression\Collection\Union;
+use PHPUnit\Framework\TestCase;
+use Adlogix\EventScheduler\TemporalExpression\Collection\Union;
+use Adlogix\EventScheduler\TemporalExpression\TemporalExpressionInterface;
 
-class UnionTest extends \PHPUnit_Framework_TestCase
+class UnionTest extends TestCase
 {
     public function getDataProvider()
     {
